@@ -5,14 +5,19 @@ name: linux
 on:
   push:
     branches:
-    - main
+    - build-test
   pull_request:
     branches:
     - main
 
 jobs:
   build:
-    runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        runs-on: [ubuntu-20.04, ubuntu-22.04, ubicloud-standard-2, ubicloud-standard-4, ubicloud-standard-8, ubicloud-standard-16]
+    name: Linux ${{matrix.runs-on}}
+    runs-on: ${{matrix.runs-on}}
+
     steps:
     - uses: actions/checkout@v2
     - name: Fetch ninja
